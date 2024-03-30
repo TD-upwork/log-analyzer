@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Log Summary</title>
+  </head>
+  <body>
+    <h1>Log Summary</h1>
+    <br>
+    <i>Note1: After you upload a file, please wait for the server to process your request before clicking on another button. When the upload is finished, the page will automatically refresh with bold text underneath this note telling you the upload is done.</i>
+    <br>
+    <i>Note2: When you click on "Clear log data" the documents from the selected project type and log type will be deleted.</i>
+    <br>
+    <p></p>
+    <% if (uploadFinished) {%>
+
+      <h3>The log file has finished uploading</h3>
+      
+
+    <% } %>
+
+    <% if (deleteFinished) {%>
+
+      <h3>Finished clearing the documents of the selected project type and log type.</h3>
+
+    <% } %>
+
+
+    <div style="display:flex; flex-direction: row;">
+        <form action="/server-action" method="post" enctype="multipart/form-data">
+          <label for="project">Select a project: </label>
+          <select name="project">
+
+            <option value="hkwl">HKWL</option>
+            <option value="newsochub">Newsochub</option>
+            <option value="podcast">Podcast</option>
+            <option value="ithink">iThink</option>
+            <option value="crv">CRV</option>
+
+          </select>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <label for="logType">Select a log type: </label>
+          <select name="logType">
+            <option value="access">Access Log</option>
+            <option value="error">Error Log</option>
+            <option value="php">PHP Slow Log</option>
+          </select>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <label for="sort">Sort by: </label>
+          <select name="sort">
+            <option value="hit">Hit Counts</option>
+            <option value="ipHit">IP hits</option>
+            <option value="pathSort">Paths</option>
+          </select>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <input type="submit" name="sendData" value="Generate Report" />
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <input type="file" name="upload" onchange="this.form.submit()" value="Upload a log file"/>
+          &nbsp;
+          &nbsp;
+          &nbsp;
+          <input type="submit" name="sendData" value="Clear log data"/>
+        </form>
+
+
+    </div>
+    <br>
+    <table border=1 id="tableDesc">
+      <tr>
+        <td>Request</td>
+        <td>Code</td>
+        <td>Hit Counts</td>
+        <td>IP Counts</td>
+        <td>Path</td>
+      </tr>
+    <% for (var i=0; i < uniquePaths; i++) {%>
+      <tr>
+        <td><%= path[i][1] %></td>
+        <td><%= path[i][2] %></td>
+        <td><%= path[i][3] %></td>
+        <td><%= path[i][4] %></td>
+        <% if (hyperlink  === "hkwl") {%>
+            <td><a class="link" href="https://www.hkwl.org/<%=path[i][0]%>"><%= path[i][0] %></a></td>
+        <% } else { %>
+            <td><%= path[i][0] %></td>
+        <% } %>
+      </tr>
+    <% } %>
+    </table> 
+  </body>
+</html>
